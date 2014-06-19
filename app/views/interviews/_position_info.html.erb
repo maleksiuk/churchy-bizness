@@ -1,0 +1,13 @@
+<% position = position || @position %>
+
+<div id="position_info">
+
+<div class="panel panel-default">
+<div class="panel-heading">Position Info</div>
+<div class="panel-body">
+  <strong>Name:</strong> <%= position.user.full_name %><br/>
+  <strong>Meeting Time:</strong> <%= position.meeting_time || '--' %><br/>
+</div>
+</div>
+
+</div>

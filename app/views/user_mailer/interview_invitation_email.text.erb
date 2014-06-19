@@ -1,0 +1,9 @@
+Dear <%= @user.honorific_name %>,
+
+This is an invitation to meet with <%= @leader.name %> for a regular stewardship interview at his office at the stake centre. The interview will take place on <%= @interview.interview_datetime.to_formatted_s(:short_and_easy_with_year) %>.
+
+Please click here to accept or reject this invitation:
+<%= url_for(controller: 'interviews', action: 'accept_or_reject', id: @interview.id, key: @interview.email_key, only_path: false) %>
+	
+Feel free to contact <%= @admin_user.full_name %> with any questions at <%= @admin_user.email %> or <%= @admin_user.phone_number %>.
+ 

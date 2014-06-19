@@ -1,0 +1,28 @@
+<%= form_for(@interview) do |f| %>
+  <% if @interview.errors.any? %>
+	<%= render 'shared/error_messages', { :model_obj => @interview } %>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :position_id %><br>
+    <%= f.collection_select :position_id, @positions, :id, :name, { prompt: true }, { class: "form-control", onchange: "$('#selected_position_id').val($('#interview_position_id').val()); $('#remote_position_form').submit();" } %>
+  </div>
+  
+	<%= render partial: "position_info", locals: { position: @interview.position } %>
+
+  <div class="form-group">
+    <%= f.label :time %>
+    <%= f.text_field :interview_datetime, :value => @interview.interview_datetime.nil? ? nil : @interview.interview_datetime.strftime("%Y-%m-%d %H:%M"), :class => "form-control" %>
+  </div>
+  <div class="actions">
+    <%= f.submit :class => "btn btn-default" %>
+  </div>
+<% end %>
+
+<%= form_tag(update_position_info_interviews_path, method: "get", remote: true, id: "remote_position_form", class: "") do %>
+    <%= hidden_field_tag 'selected_position_id', '' %>
+<% end %>
+
+<script>
+$('#interview_interview_datetime').datetimepicker({ dateFormat: "yy-mm-dd" });
+</script>

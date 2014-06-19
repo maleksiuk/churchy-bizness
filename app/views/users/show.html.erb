@@ -1,0 +1,30 @@
+<h2>User</h2>
+
+<h3>Basic Info</h3>
+
+<table class="table">
+  <tr>
+	<td>First name</td>
+	<td><%= @user.first_name %></td>
+  </tr>
+  <tr>
+	<td>Last name</td>
+	<td><%= @user.last_name %></td>
+  </tr>
+  <tr>
+	<td>Honorific</td>
+	<td><%= @user.honorific %></td>
+  </tr>
+  <tr>
+	<td>E-mail</td>
+	<td><%= @user.email %></td>
+  </tr>
+  <tr>
+	<td>Phone</td>
+	<td><%= @user.phone_number %></td>
+  </tr>
+
+</table>
+
+
+<%= link_to 'Edit', edit_user_path(@user), :class => 'btn btn-default' %>

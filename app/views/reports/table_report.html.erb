@@ -1,0 +1,60 @@
+
+<h2>Table Report</h2>
+
+<%= form_tag(table_report_path, method: "get", :class => "") do %>
+
+    <div class="form-group">
+    <%= label_tag(:leader, "Leader:") %>
+  	<%= select_tag "leader_id", options_from_collection_for_select(@leaders, "id", "name", @leader.id), :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+    <%= label_tag(:year, "Year:") %>
+  	<%= select_tag "year", options_for_select(@years.map { |y| [y, y] }, @year), :class => "form-control" %>
+    </div>
+
+    <%= submit_tag("Generate", :class => "btn btn-default") %>
+
+<% end %>
+
+<br/>
+
+<table class="table table-bordered table-condensed">
+	<tr>
+		<th>Position</th>
+		<th>Jan</th>
+		<th>Feb</th>
+		<th>Mar</th>
+		<th>Apr</th>
+		<th>May</th>
+		<th>Jun</th>
+		<th>Jul</th>
+		<th>Aug</th>
+		<th>Sep</th>
+		<th>Oct</th>
+		<th>Nov</th>
+		<th>Dec</th>
+	</tr>
+
+<% @positions.each do |position| %>
+	
+	<tr>
+		<td><%= link_to position.name, position %></td>
+		<td><%= interview_days(@interviews, position, 1).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 2).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 3).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 4).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 5).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 6).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 7).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 8).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 9).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 10).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 11).html_safe %></td>
+		<td><%= interview_days(@interviews, position, 12).html_safe %></td>
+    </tr>
+
+<% end %>
+
+</table>
+

@@ -1,0 +1,15 @@
+
+<p>
+	This interview cannot be accepted or rejected, likely because it has already had its status changed.
+</p>
+
+<% if @interview %>
+<p>
+	Its current status is: <%= @interview.status.name %>.
+</p>
+<% end %>
+
+<p>
+	<% admin_user = User.admin_user %>
+    Feel free to contact <%= admin_user.full_name %> with any questions at <%= admin_user.email %> or <%= admin_user.phone_number %>.
+</p>

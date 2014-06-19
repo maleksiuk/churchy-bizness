@@ -1,0 +1,37 @@
+<h2>Positions</h2>
+
+<%= form_tag(positions_path, method: "get", :id => "leader_form", :class => "", :onchange => "$('#leader_form').submit()") do %>
+    <div class="form-group">
+    <%= label_tag(:leader, "Leader:", :class => "sr-only") %>
+  	<%= select_tag "leader_id", options_from_collection_for_select(Leader.all, "id", "name", @leader.id), :class => "form-control" %>
+    </div>
+<% end %>
+
+<br/>
+
+<table class="table table-condensed">
+	<tr>
+		<th>Position</th>
+		<th>User</th>
+		<th>Active Interview <%= active_interview_sort_link %></th>
+		<th>Latest Completed Interview <%= latest_completed_interview_sort_link %></th>
+		<th>Meeting Time</th>		
+		<th></th>
+	</tr>
+
+<% @positions.each do |position| %>
+	
+	<tr>
+		<td><%= link_to position.name, position %></td>
+		<td><%= position.user.full_name %></td>
+		<td><%= position.active_interview.nil? ? 'none' : "#{link_to(active_interview_text(position.active_interview), position.active_interview)} #{active_interview_status_text(position.active_interview)}".html_safe %></td>
+		<td><%= position.most_recent_completed_interview.nil? ? 'none' : link_to(position.most_recent_completed_interview.interview_datetime.to_formatted_s(:short_and_easy_with_year), position.most_recent_completed_interview) %></td>
+		<td><%= position.meeting_time %></td>
+		<td><%= link_to 'Book new interview', new_interview_path(:position_id => position) %></td>
+    </tr>
+
+<% end %>
+
+</table>
+
+<%= link_to 'New Position', new_position_path, :class => 'btn btn-default' %>

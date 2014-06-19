@@ -1,0 +1,42 @@
+
+<h2>Meeting invitation</h2>
+
+<%= @interview.position.user.honorific_name %>,<br/><br/>
+
+You have been invited to an interview with <%= @interview.position.leader.name %> at <%= @interview.interview_datetime.to_formatted_s(:short_and_easy_with_year) %>.
+
+<br/><br/>
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Accept invitation</h3>
+  </div>
+  <div class="panel-body">
+	<p class="text-center">
+      <%= link_to 'Accept', accept_interview_path(@interview, key: @email_key), :class => 'btn btn-success', :method => :put %>	
+    </p>
+  </div>
+</div>
+
+<p class="text-center"><strong>OR</strong></p><br/>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Reject invitation</h3>
+  </div>
+  <div class="panel-body">
+	  <%= form_tag(reject_interview_path(@interview, key: @email_key), method: "put", :class => "") do %>
+		  <div class="form-group">
+		    <%= label_tag(:optional_message, "Optional message:", :class => "") %>
+		    <%= text_area_tag :rejection_message, '', :class => "form-control", :maxlength => "200" %>
+		  </div>
+		<p class="text-center">		
+		  <%= submit_tag("Reject", :class => "btn btn-danger") %>
+		</p>
+	    
+	  <% end %>
+  </div>
+</div>
+
+
+

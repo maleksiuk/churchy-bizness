@@ -1,0 +1,68 @@
+<h2>Interview</h2>
+
+<h3>Basic Info</h3>
+
+<table class="table">
+  <tr>
+	<td>Status</td>
+	<td><%= active_interview_status_text(@interview) %></td>
+  </tr>
+  <tr>
+	<td>Position</td>
+	<td><%= @interview.position.name %> (<%= @interview.position.user.full_name %>)</td>
+  </tr>
+  <tr>
+	<td>Time</td>
+	<td><%= @interview.interview_datetime.to_formatted_s(:short_and_easy_with_year) %></td>
+  </tr>
+</table>
+
+<h3>History</h3>
+
+<table class="table table-striped table-condensed">
+	<tr>
+		<th>Time</th>
+		<th></th>
+	</tr>
+
+<% @interview.interview_history_items.each do |item| %>
+	
+	<tr>
+		<td><%= item.history_datetime.to_formatted_s(:short_and_easy_with_year) %></td>
+		<td><%= item.message %></td>
+    </tr>
+
+<% end %>
+
+</table>
+
+
+
+<% if @interview.can_be_edited? %>
+  <%= link_to 'Edit', edit_interview_path(@interview), :class => 'btn btn-default' %>
+<% end %>
+
+<% if should_show_send_invitation_button(@interview) %>    
+	<%= link_to send_invitation_button_text(@interview), send_invitation_interview_path(@interview), method: :put, :class => 'btn btn-default' %>
+<% end %>
+
+<% if @interview.status == InterviewStatus::INVITATION_SENT || @interview.status == InterviewStatus::NEW %>
+  <%= link_to 'Manually accept invitation', accept_by_admin_interview_path(@interview), method: :put, :class => 'btn btn-default' %>
+  <%= link_to 'Manually reject invitation', reject_by_admin_interview_path(@interview), method: :put, :class => 'btn btn-default' %>
+<% end %>
+
+<% unless @interview.completed? || @interview.dismissed? || @interview.cancelled? || @interview.rejected? %>
+	<%= link_to 'Complete interview', complete_interview_path(@interview), method: :put, :class => 'btn btn-default' %>
+<% end %>
+
+<% if @interview.can_be_cancelled? %>
+	<%= link_to 'Cancel interview', cancel_interview_path(@interview), method: :put, data: { confirm: 'Are you sure? You will be responsible for letting the interviewee know.' }, :class => 'btn btn-default' %>
+<% end %>
+
+<% unless @interview.dismissed? %>
+	<%= link_to 'Dismiss interview', dismiss_interview_path(@interview), method: :put, :class => 'btn btn-default' %>
+<% end %>
+
+
+
+

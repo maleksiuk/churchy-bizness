@@ -1,0 +1,69 @@
+
+<h2>Text Report</h2>
+
+<%= form_tag(generate_text_report_path, method: "get", :class => "") do %>
+
+    <div class="form-group">
+    <%= label_tag(:leader, "Leader:") %>
+  	<%= select_tag "leader_id", options_from_collection_for_select(@leaders, "id", "name", @leader.id), :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+    <%= label_tag(:year, "Year:") %>
+  	<%= select_tag "year", options_for_select(@years.map { |y| [y, y] }, @year), :class => "form-control" %>
+    </div>
+  
+  <div class="form-group">	
+	<label class="checkbox-inline">
+	  <%= check_box_tag 'janfeb', 'true', params[:janfeb], class: '' %> Jan/Feb
+	</label>
+	<label class="checkbox-inline">
+	  <%= check_box_tag 'marapr', 'true', params[:marapr], class: '' %> Mar/Apr
+	</label>
+	<label class="checkbox-inline">
+	  <%= check_box_tag 'mayjun', 'true', params[:mayjun], class: '' %> May/Jun
+	</label>	
+	<label class="checkbox-inline">
+	  <%= check_box_tag 'julaug', 'true', params[:julaug], class: '' %> Jul/Aug
+	</label>
+	<label class="checkbox-inline">
+	  <%= check_box_tag 'sepoct', 'true', params[:sepoct], class: '' %> Sep/Oct
+	</label>
+	<label class="checkbox-inline">
+	  <%= check_box_tag 'novdec', 'true', params[:novdec], class: '' %> Nov/Dec
+	</label>
+  </div>
+
+    <%= submit_tag("Generate", :class => "btn btn-default") %>
+
+<% end %>
+
+<br/>
+
+<% if @report_generated %>
+
+Leader: <%= @leader.name %><br/>
+
+Number of interviews possible: <%= @number_of_interviews_leader_should_have_done %><br/>
+Number of completed interviews: <%= @number_of_completed_interviews %><br/>
+Percentage completed: <%= @percentage_completed %>%<br/>
+<br/>
+Interviewed:<br/>
+----------------<br/>
+<% @positions_they_saw.each do |position| %>
+- <%= position.name %> (<%= position.user.full_name %>) [<%= @interviews.select { |i| i.position == position }.map { |i| i.interview_datetime.to_formatted_s(:short_and_easy_with_year) }.join('; ') %>]<br/>
+<% end %>
+
+<br/>
+Not Interviewed:<br/>
+---------------------<br/>
+<% @positions_they_did_not_see.each do |position| %>
+- <%= position.name %> (<%= position.user.full_name %>)<br/>
+<% end %>
+
+<% end %>
+
+
+
+
+

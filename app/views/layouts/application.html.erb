@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Churchy Bizness</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+
+  <style>
+    body {
+      padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
+  </style>
+</head>
+<body>
+	
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <% if @show_full_nav_bar %>
+          <%= link_to "Churchy Bizness", positions_path, :class => "navbar-brand" %>
+          <% else %>
+          <span class="navbar-brand">Churchy Bizness</span>
+          <% end %>
+        </div>
+        <div class="collapse navbar-collapse">
+	      <% if @show_full_nav_bar %>
+          <ul class="nav navbar-nav">
+			<li><%= link_to "Positions", positions_path %></li>
+			<li><%= link_to "Interviews", interviews_path %></li>
+			<li><%= link_to "Users", users_path %></li>
+			<li><%= link_to "Table Report", table_report_path %></li>
+			<li><%= link_to "Text Report", text_report_path %></li>
+			<% if current_user %>
+			  <li><%= link_to "Log out", logout_path %></li>
+			<% else %>
+			  <li><%= link_to "Log in", login_path %></li>
+			<% end %>
+          </ul>
+          <% end %>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+	<div class="container">
+	  <% flash.each do |key, value| %>
+	    <div class="<%= flash_class(key) %> fade in">
+	      <%= value %>
+	    </div>
+	  <% end %>
+	
+	  <%= yield %>
+	
+	</div>
+
+</body>
+</html>

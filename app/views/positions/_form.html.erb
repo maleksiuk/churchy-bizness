@@ -1,0 +1,27 @@
+<%= form_for(@position) do |f| %>
+  <% if @position.errors.any? %>
+    <%= render 'shared/error_messages', { :model_obj => @position } %>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :leader_id %><br>
+    <%= f.collection_select :leader_id, @leaders, :id, :name, { prompt: true }, { class: "form-control" } %>
+  </div>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, :value => @position.name, :class => "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :user_id %><br>
+    <%= f.collection_select :user_id, @users, :id, :full_name, { prompt: true }, { class: "form-control" } %>
+  </div>
+  <div class="form-group">
+    <%= f.label :meeting_time %>
+    <%= f.text_field :meeting_time, :class => "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit :class => "btn btn-default" %>
+  </div>
+<% end %>
+

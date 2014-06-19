@@ -1,0 +1,63 @@
+
+<h2>Position</h2>
+
+<h3>Basic Info</h3>
+
+<table class="table">
+  <tr>
+	<td>Position</td>
+	<td><%= "#{@position.name} (#{@position.user.full_name})" %></td>
+  </tr>
+  <tr>
+	<td>Leader</td>
+	<td><%= @position.leader.name %></td>
+  </tr>
+  <tr>
+	<td>Meeting Time</td>
+	<td><%= @position.meeting_time %></td>
+  </tr>
+</table>
+
+<h3>Last 5 Interviews</h3>
+
+<table class="table table-striped table-condensed">
+	<tr>
+		<th>Time</th>
+		<th>Status</th>
+	</tr>
+
+<% @position.interviews.order("interview_datetime desc").limit(5).each do |interview| %>
+	
+	<tr>
+		<td><%= link_to interview.interview_datetime.to_formatted_s(:short_and_easy_with_year), interview %></td>
+		<td><%= active_interview_status_text(interview) %></td>
+    </tr>
+
+<% end %>
+
+</table>
+
+<h3>Last 10 History Items</h3>
+
+<table class="table table-striped table-condensed">
+	<tr>
+		<th>Time</th>
+		<th>Interview</th>
+		<th></th>
+	</tr>
+
+<% @position.interview_history_items.includes(:interview).limit(10).each do |item| %>
+	
+	<tr>
+		<td><%= item.history_datetime.to_formatted_s(:short_and_easy_with_year) %></td>
+		<td><%= "ID ##{item.interview.id} (#{item.interview.interview_datetime.to_formatted_s(:short_and_easy_with_year)})" %></td>
+		<td><%= item.message %></td>
+    </tr>
+
+<% end %>
+
+</table>
+
+<%= link_to 'Edit', edit_position_path(@position), :class => 'btn btn-default' %>
+
+<%= link_to 'Book new interview', new_interview_path(:position_id => @position), :class => 'btn btn-default' %>
